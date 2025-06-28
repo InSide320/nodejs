@@ -1,0 +1,23 @@
+{
+  "name": "server-express",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cross-env NODE_ENV=dev NODE_CONFIG_DIR=./connect/config nodemon app.js",
+    "start:env": "cross-env nodemon app.js"
+  },
+  "dependencies": {
+    "config": "^4.0.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10",
+    "server": "^1.0.41"
+  }
+}

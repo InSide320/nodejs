@@ -1,0 +1,24 @@
+{
+  "name": "express-with-multer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "../../express-with-multer/node_modules/.bin/cross-env NODE_ENV=dev NODE_CONFIG_DIR=./connect/config nodemon app.js",
+    "start:env": "../../express-with-multer/node_modules/.bin/cross-env nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "config": "^4.0.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "multer": "^2.0.1",
+    "nodemon": "^3.1.10",
+    "server": "^1.0.41"
+  }
+}
