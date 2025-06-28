@@ -1,0 +1,8 @@
+pug
+h2 Відгуки гостей
+ul
+    each guest in guests
+        li
+            strong= guest.username
+            | :
+            span= guest.message
