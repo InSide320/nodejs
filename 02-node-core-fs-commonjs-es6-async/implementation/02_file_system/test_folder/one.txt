@@ -1,0 +1,9 @@
+If you cannot do this then you can also e-mail feedback to public-html-comments@w3.org (subscribe, archives), and arrangements will be made to transpose the comments to our public bug database. Alternatively, you can e-mail feedback to whatwg@whatwg.org (subscribe, archives). The editor guarantees that all substantive feedback sent to this list will receive a reply. However, such feedback is not considered formal feedback for the W3C process. All feedback is welcome.
+
+The working groups maintains a list of all bug reports that the editor has not yet tried to address and a list of issues for which the chairs have not yet declared a decision. The editor also maintains a list of all e-mails that he has not yet tried to address. These bugs, issues, and e-mails apply to multiple HTML-related specifications, not just this one.
+
+Implementors should be aware that this specification is not stable. Implementors who are not taking part in the discussions are likely to find the specification changing out from under them in incompatible ways. Vendors interested in implementing this specification before it eventually reaches the Candidate Recommendation stage should join the aforementioned mailing lists and take part in the discussions.
+
+This is a work in progress!
+For the latest updates from the HTML WG, possibly including important bug fixes, please look at the editor's draft instead.
+The publication of this document by the W3C as a W3C Working Draft does not imply that all of the participants in the W3C HTML working group endorse the contents of the specification. Indeed, for any section of the specification, one can usually find many members of the working group or of the W3C as a whole who object strongly to the current text, the existence of the section at all, or the idea that the working group should even spend time discussing the concept of that section.
