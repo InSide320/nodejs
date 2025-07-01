@@ -31,31 +31,31 @@
 - або бути знищеною вручну (наприклад, під час виходу з системи), що призводить до очищення сесії на сервері та видалення cookie на клієнті.
 
 ## Приклад реалізації сесій у Node.js за допомогою Express.js
-```
+```js
 const express = require('express');
 const session = require('express-session');
 const app = express();
 
 app.use(session({
-secret: 'your_secret_key',          // Секрет для підпису cookie
-resave: false,                      // Не зберігати сесію без змін
-saveUninitialized: false,          // Не створювати порожні сесії
-cookie: { maxAge: 60 * 60 * 1000 } // Тривалість сесії — 1 година
+  secret: 'your_secret_key',          // Секрет для підпису cookie
+  resave: false,                      // Не зберігати сесію без змін
+  saveUninitialized: false,          // Не створювати порожні сесії
+  cookie: { maxAge: 60 * 60 * 1000 } // Тривалість сесії — 1 година
 }));
 
 // Приклад використання
 app.get('/', (req, res) => {
-if (req.session.views) {
-req.session.views++;
-res.send(`Ви відвідали цю сторінку ${req.session.views} раз(ів).`);
-} else {
-req.session.views = 1;
-res.send('Ласкаво просимо на сторінку вперше!');
-}
+  if (req.session.views) {
+    req.session.views++;
+    res.send(`Ви відвідали цю сторінку ${req.session.views} раз(ів).`);
+  } else {
+    req.session.views = 1;
+    res.send('Ласкаво просимо на сторінку вперше!');
+  }
 });
 
 app.listen(3000, () => {
-console.log('Сервер працює на порту 3000');
+ console.log('Сервер працює на порту 3000');
 });
 
 ```
