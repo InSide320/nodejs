@@ -8,5 +8,6 @@ html
       each msg in messages
         li
           strong= msg.username + ':'
-          |  #{msg.text}
+          | #{msg.text} :
+          | #{msg.date}
     a(href="/") Back to home
