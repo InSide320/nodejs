@@ -1,0 +1,12 @@
+doctype html
+html
+  head
+    title Messages
+  body
+    h1 All Messages
+    ul
+      each msg in messages
+        li
+          strong= msg.username + ':'
+          |  #{msg.text}
+    a(href="/") Back to home
