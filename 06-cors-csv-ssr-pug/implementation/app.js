@@ -1,11 +1,11 @@
 const path = require('path');
 const config = require('config');
 const port = config.get('port');
-const fs = require('fs');
-
+const fs = require('fs/promises');
 const express = require('express');
-const app = express();
+const {readMessages} = require('./utility/index.js');
 
+const app = express();
 app.listen(port, () => console.log(`Server is running on http://localhost:${port}`));
 
 app.set('view engine', 'pug');
@@ -21,42 +21,32 @@ app.get('/form', (req, res) => {
     res.render('form');
 })
 
-app.post('/form', (req, res) => {
+app.post('/form', async (req, res) => {
     const {username, message} = req.body;
     console.log(`Name: ${username}, Message: ${message}`);
     const messageWithTime = message + ` - ${new Date().toISOString()}`;
     const filePath = path.join(__dirname, 'message.json');
-    fs.readFile(filePath, "utf-8", (err, data) => {
-        let messages = [];
-        if (!err && data) {
-            try {
-                messages = JSON.parse(data);
-            } catch (parseError) {
-                console.error('Error parsing JSON:', parseError);
-            }
-        }
-        messages.push({username: username, message: messageWithTime});
-        fs.writeFile(filePath, JSON.stringify(messages, null, 2), (err) => {
-            if (err) {
-                console.error('Error writing to file:', err);
-                return res.status(500).send('Internal Server Error');
-            }
-            console.log('Message saved successfully');
-        })
-    })
+    try {
+        const messages = await readMessages(filePath);
+        messages.push({username, message: messageWithTime});
+        await fs.writeFile(filePath, JSON.stringify(messages, null, 2), 'utf-8');
+        console.log(`Message saved: ${username} - ${messageWithTime}`);
+        res.redirect('/guests');
+    } catch (error) {
+        console.error('Error reading or writing file:', error);
+        return res.status(500).send('Internal Server Error');
+
+    }
     res.redirect('/guests');
 })
 
-app.get('/guests', (req, res) => {
-    fs.readFile(path.join(__dirname, 'message.json'), "utf-8", (err, data) => {
-        let messages = [];
-        if (!err && data) {
-            try {
-                messages = JSON.parse(data);
-            } catch (parseError) {
-                console.error('Error parsing JSON:', parseError);
-            }
-        }
+app.get('/guests', async (req, res) => {
+    try {
+        const messageFile = path.join(__dirname, 'message.json');
+        let messages = await readMessages(messageFile);
         res.render('guests', {guests: messages});
-    })
+    } catch (error) {
+        console.error('Error reading or parsing file' + error);
+        res.render('guests', {guests: []});
+    }
 })
