@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "title": "Set up authentication",
+    "description": "Implement JWT authentication with token refresh and middleware-based access control.",
+    "assignee": "Ivan Petrov",
+    "role": "admin"
+  },
+  {
+    "id": 2,
+    "title": "Create feedback form UI",
+    "description": "Design a form with fields: name, email, message. Include validation and server submission.",
+    "assignee": "Elena Smirnova",
+    "role": "user"
+  },
+  {
+    "id": 3,
+    "title": "Integrate MongoDB",
+    "description": "Configure MongoDB connection and create collections for users and tasks.",
+    "assignee": "Dmitry Kozlov",
+    "role": "admin"
+  },
+  {
+    "id": 4,
+    "title": "Add dark mode",
+    "description": "Add a theme switcher and save user preference to localStorage.",
+    "assignee": "Anna Volkova",
+    "role": "user"
+  },
+  {
+    "id": 5,
+    "title": "Write API documentation",
+    "description": "Create Swagger documentation for all backend endpoints.",
+    "assignee": "Sergey Ivanov",
+    "role": "admin"
+  }
+]

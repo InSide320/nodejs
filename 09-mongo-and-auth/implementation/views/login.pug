@@ -1,0 +1,15 @@
+include header
+
+.container
+    
+    h1 Login
+    if error
+      p(style="color:red")= error
+
+    form(method="POST" action="/login")
+      div
+        input(type="text" name="username" placeholder="Ім'я користувача" required)
+      div
+        input(type="password" name="password" placeholder="Пароль" required)
+      div
+        button(type="submit") Увійти
