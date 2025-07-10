@@ -1,0 +1,10 @@
+{
+  "port": 3500,
+  "mongo": {
+    "url": "mongodb://localhost:27017/site",
+    "collectionSession": "sessions",
+    "collectionUsers": "users",
+    "collectionTasks": "tasks"
+  },
+  "salt": 10
+}

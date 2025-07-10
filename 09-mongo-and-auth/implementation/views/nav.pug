@@ -7,9 +7,9 @@ nav
         li
             a(href="/dashboard") Dashboard
         li
-            if (username)
+            if (email)
                 a(href="/logout") Logout
             else
                 a(href="/login") Login
-        if (username)
-            li= username.email
+        if (email)
+            li= email
