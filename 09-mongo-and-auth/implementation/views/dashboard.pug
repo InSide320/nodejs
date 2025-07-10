@@ -1,10 +1,27 @@
 include header
 
 .container
-    
+
     h1 Hi, #{user}!
     h2 Dashboard
     p Ви увійшли в систему.
     img(src="https://miro.medium.com/v2/resize:fit:1400/1*heL-f8bPywxsNG2snNPIwQ.jpeg", alt="", style="max-width:200px;")
     div
-      a(href="/logout") Вийти
+        a(href="/logout") Вийти
+    div
+        table
+            thead
+                tr
+                    th ID
+                    th Title
+                    th Description
+                    th Assignee
+                    th Role
+            tbody
+                each task in tasks
+                    tr
+                        td= task.id
+                        td= task.title
+                        td= task.description
+                        td= task.assignee
+                        td= task.role

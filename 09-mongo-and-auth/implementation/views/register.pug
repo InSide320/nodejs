@@ -1,0 +1,22 @@
+include header
+
+.container
+
+    h1 Registration
+    if error
+        p(style="color:red")= error
+
+    form(method="POST" action="/register")
+        div
+            input(type="email" name="email" placeholder="User email" value="admin@admin.admin" required)
+        div
+            input(type="password" name="password" placeholder="Password" value="admin" required)
+        div
+            label
+                input(type="radio" name="role" value="admin")
+                | Admin
+            label
+                input(type="radio" name="role" value="user" checked)
+                | User
+        div
+            button(type="submit") Register
