@@ -1,0 +1,17 @@
+include header
+
+.container
+    
+    h1 Registration
+    if error
+      p(style="color:red")= error
+
+    form(method="POST" action="/signin")
+      div
+        input(type="text" name="email" placeholder="Email користувача" required)
+      div
+        input(type="text" name="username" placeholder="Iм'я користувача" required)
+      div
+        input(type="password" name="password" placeholder="Пароль" required)
+      div
+        button(type="submit") Send

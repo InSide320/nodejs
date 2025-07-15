@@ -1,0 +1,17 @@
+include header
+
+.container
+    
+    h1 Main
+
+    each item in articles
+        div
+            if (email)
+                a(href="/edit/") Edit
+        h5
+            a(href=`/articles/${item.url}`)= item.title
+
+        div
+            span= item.createdAt
+            | &nbsp;
+            span views: #{item.views}

@@ -1,0 +1,7 @@
+{
+    "port" : 3050,
+    "mongoUrl":  "mongodb://localhost:27017/sprint_11",
+    "dbName" : "sprint_11",
+    "dbSessionCollectionName" : "sessions",
+    "session_key" : "OUB),H~7Tz;$cm+g!Dot@%Vo"
+}
