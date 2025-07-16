@@ -1,7 +1,7 @@
 include header
 
 .container
-    
+
     h1 Статті
     div
         a(href="/articles/new") Створити
@@ -12,7 +12,9 @@ include header
                 div
                     a(href=`/articles/${article.url}`)= article.title
                 div
+                    span= stringifyTags(article.tags)
+                div
                     a(href=`/articles/${article.url}/edit`) Edit
                 div
-                    form(method="POST", action=`/articles/${article.url}/delete`, style="display:inline")
+                    form(action=`/articles/${article.url}?_method=DELETE`, method="POST", style="display:inline")
                         button(type="submit") Delete 
