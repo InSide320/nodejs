@@ -47,17 +47,19 @@ module.exports = function ({articlesCollection}) {
     // 🟡 UPDATE
     router.put('/:url', async (req, res) => {
         const {title, content, url, tags, published} = req.body;
+        const article = {
+            title,
+            content,
+            url,
+            published: published === 'on',
+            updatedAt: new Date()
+        };
+        if (tags) article.tags = parseTags(tags);
+
         await articlesCollection.updateOne(
             {url: req.params.url},
             {
-                $set: {
-                    title,
-                    content,
-                    url,
-                    tags: parseTags(tags),
-                    published: published === 'on',
-                    updatedAt: new Date()
-                }
+                $set: article
             }
         );
         res.redirect('/articles');
