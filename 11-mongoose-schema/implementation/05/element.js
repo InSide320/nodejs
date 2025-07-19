@@ -5,7 +5,13 @@ const elementSchema = new mongoose.Schema({
         type: String
     },
     author: {
-        type: String
+        type: String,
+        validate: {
+            validator: function(v) {
+                return /\s/.test(v);
+            },
+            message: props => `${props.value} не містить пробілу!`
+        }
     },
     year: {
         type: Number,
