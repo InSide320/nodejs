@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Element = require('./element');
 
-const mongoURL = 'mongodb://localhost:27117/storage'; // Поставьте той порт що у вас
+const mongoURL = 'mongodb://localhost:27017/storage'; // Поставьте той порт що у вас
 
 const document = require ('./document');
 console.log(document)
@@ -26,7 +26,7 @@ async function run() {
   } catch (err) {
     console.error('Save error:', err);
   } finally {
-    mongoose.disconnect(); // закрываем подключение, если скрипт одноразовый
+    await mongoose.disconnect(); // закрываем подключение, если скрипт одноразовый
   }
 }
 

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Element = require('./element');
 
-const mongoURL = 'mongodb://localhost:27117/storage'; // Поставьте той порт що у вас
+const mongoURL = 'mongodb://localhost:27017/storage'; // Поставьте той порт що у вас
 
 const document = require ('./document');
 console.log(document)
