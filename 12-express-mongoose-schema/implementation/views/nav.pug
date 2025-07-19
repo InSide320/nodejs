@@ -1,0 +1,18 @@
+nav
+    ul(style="display:flex; justify-content: space-between; list-style-type:none")
+        li
+            a(href="/") Main
+        li
+            a(href="/articles") Articles
+        li
+            a(href="/dashboard") Dashboard
+        li
+            if (user)
+                a(href="/logout") Logout
+            else
+                a(href="/login") Login
+        li
+            if (!user)
+                a(href="/signin") Register
+        if (user)
+            li= email

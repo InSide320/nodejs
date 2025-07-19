@@ -1,0 +1,35 @@
+include header
+
+.container
+    
+    h1 Hi, #{username}
+    h2 Dashboard
+    p Ви увійшли в систему.
+    div
+      a(href="/logout") Вийти
+    div
+      table
+        tr
+          th 
+          th username
+          th email
+          th password
+          th role
+          th createdAt
+        each item, index in users
+          if item.username == username
+            tr
+              td.bg-purple-50 #{index + 1}
+              td.bg-purple-50= item.username
+              td.bg-purple-50= item.email
+              td.bg-purple-50= item.password
+              td.bg-purple-50= item.role
+              td.bg-purple-50= item.createdAt
+          else
+            tr
+              td #{index + 1}
+              td= item.username
+              td= item.email
+              td= item.password
+              td= item.role
+              td= item.createdAt

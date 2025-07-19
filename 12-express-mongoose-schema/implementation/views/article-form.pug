@@ -1,0 +1,22 @@
+include header
+
+.container
+    h1= article._id ? 'Редагувати статтю' : 'Нова стаття'
+
+    form(method="POST", action=action)
+        div
+            input(type="text", name="title", placeholder="Заголовок", value=article.title || '')
+        div
+            input(type="text", name="url", placeholder="URL", value=article.url || '')
+        div
+            textarea(name="content")= article.content || ''
+        div
+            label
+                input(type="checkbox", name="published", checked=article.published)
+                | Опубліковано
+        div
+            label
+                input(type="text", name="tags", value=stringifyTags(article.tags))
+                | Tags
+                div
+                button(type="submit") Зберегти

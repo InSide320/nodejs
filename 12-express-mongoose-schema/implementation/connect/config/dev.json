@@ -1,0 +1,7 @@
+{
+  "port": 3100,
+  "mongoUrl":  "mongodb://localhost:27017/homework_12",
+  "dbName" : "homework_12",
+  "dbSessionCollectionName" : "sessions",
+  "session_key" : "OUB),H~7Tz;$cm+g!Dot@%Vo"
+}
