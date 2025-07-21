@@ -1,19 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-module.exports = function ({ usersCollection }) {
+module.exports = function ({userSchema}) {
+    router.get('/dashboard', async (req, res) => {
+        if (!req.session.user) return res.redirect('/login');
+        const users = await userSchema.find({role: 'user'});
+        res.render('dashboard', {users});
+    });
 
-
-  router.get('/dashboard', async (req, res) => {
-    if (!req.session.user) return res.redirect('/login');
-
-    try {
-      const users = await usersCollection.find({ role: 'user' }).toArray();
-      res.render('dashboard', { users });
-    } catch (err) {
-      res.status(500).send('Помилка сервера');
-    }
-  });
-
-  return router;
+    return router;
 }

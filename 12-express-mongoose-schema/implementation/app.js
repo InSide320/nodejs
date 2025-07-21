@@ -1,9 +1,9 @@
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-const sessionMiddleware = require('./db/session');
 const methodOverride = require('method-override');
 const {stringifyTags} = require("./utils/tags");
+const createSessionMiddleware = require("./db/session");
 
 const app = express();
 
@@ -13,7 +13,7 @@ app.set('views', './views');
 app.use(express.static(`${__dirname}/assets`));
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.use(sessionMiddleware);
+app.use(createSessionMiddleware());
 
 app.use(morgan('tiny', {
     skip: req => req.url.startsWith('/.well-known')

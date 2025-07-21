@@ -1,17 +1,37 @@
 include header
 
 .container
-    
+
     h1 Main
 
     each item in articles
+        hr
+        if (email)
+            a(href=`/articles/${item.url}/edit`) Edit
         div
-            if (email)
-                a(href="/edit/") Edit
-        h5
-            a(href=`/articles/${item.url}`)= item.title
-
+            h5
+                a(href=`/articles/${item.url}`)= item.title
+        p= item.content
         div
             span= item.createdAt
             | &nbsp;
-            span views: #{item.views}
+            ul comments:
+            each comment in item.comments
+                if(comment.visible === true)
+                    li #{comment.text}
+        div
+            h4= 'Додати коментар'
+            form(method="POST", action=action)
+                div
+                    input(type="hidden" name="articleId" value=item._id)
+                div
+                    input(type="text", name="comment", placeholder="comment")
+                div
+                    label
+                        input(type="radio" name="visible" value="visible" checked)
+                        | Visible
+                    label
+                        input(type="radio" name="visible" value="Invisible")
+                        | Invisible
+                div
+                    button(type="submit") Коментувати

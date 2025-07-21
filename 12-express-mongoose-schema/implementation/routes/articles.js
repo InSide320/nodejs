@@ -1,12 +1,12 @@
 const express = require('express');
 const {parseTags} = require("../utils/tags");
 
-module.exports = function ({articlesCollection}) {
+module.exports = ({articleSchema}) => {
     const router = express.Router();
 
     // read
     router.get('/', async (req, res) => {
-        const articles = await articlesCollection.find().toArray();
+        const articles = await articleSchema.find({});
         res.render('articles', {articles});
     });
 
@@ -26,21 +26,19 @@ module.exports = function ({articlesCollection}) {
             createdAt: new Date()
         };
         if (tags) article.tags = parseTags(tags);
-
-        await articlesCollection.insertOne(article);
+        await articleSchema.insertOne(article);
         res.redirect('/articles');
     });
 
-
     //  READ
     router.get('/:url', async (req, res) => {
-        const article = await articlesCollection.findOne({url: req.params.url});
+        const article = await articleSchema.findOne({url: req.params.url});
         res.render('article', {article});
     });
 
     // 🟡 UPDATE — форма
     router.get('/:url/edit', async (req, res) => {
-        const article = await articlesCollection.findOne({url: req.params.url});
+        const article = await articleSchema.findOne({url: req.params.url});
         res.render('article-form', {article, action: `/articles/${article.url}?_method=PUT`});
     });
 
@@ -56,7 +54,7 @@ module.exports = function ({articlesCollection}) {
         };
         if (tags) article.tags = parseTags(tags);
 
-        await articlesCollection.updateOne(
+        await articleSchema.updateOne(
             {url: req.params.url},
             {
                 $set: article
@@ -67,7 +65,7 @@ module.exports = function ({articlesCollection}) {
 
     // DELETE
     router.delete('/:url', async (req, res) => {
-        await articlesCollection.deleteOne({url: req.params.url});
+        await articleSchema.deleteOne({url: req.params.url});
         res.redirect('/articles');
     });
 

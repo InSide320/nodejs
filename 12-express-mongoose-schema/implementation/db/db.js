@@ -1,20 +1,16 @@
-const { MongoClient } = require("mongodb");
 const config = require('config');
-
-const mongoUrl = config.mongoUrl;
-const client = new MongoClient(mongoUrl);
+const mongoose = require('mongoose');
+const mongoUrl = config.get('mongoUrl');
 
 async function connectDB() {
-  await client.connect();
-  const db = client.db(config.dbName);
-  console.log('MongoDB connected');
-  return {
-    usersCollection: db.collection('users'),
-    articlesCollection: db.collection('articles'),
-  };
+    try {
+        const connection = await mongoose.connect(mongoUrl);
+        console.log('Mongoose підключено успішно');
+        return connection;
+    } catch (err) {
+        console.error('Connection error', err);
+        process.exit(1);
+    }
 }
 
-module.exports = { 
-  connectDB, 
-  "mongoUrl": config.mongoUrl
-};
+module.exports = {connectDB};

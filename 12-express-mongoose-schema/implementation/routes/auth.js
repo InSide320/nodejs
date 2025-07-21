@@ -4,126 +4,133 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const config = require('config');
 
-module.exports = function ({ usersCollection }) {
+module.exports = function ({userSchema}) {
 
-  router.get('/login', (req, res) => {
-    res.render('login');
-  });
-
-  router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-    const user = await usersCollection.findOne({ email });
-
-    if (user && await bcrypt.compare(password, user.password)) {
-      req.session.user = user.username;
-      req.session.email = user.email;
-      return res.redirect('/dashboard');
-    }
-
-    res.render('login', { error: 'Невірний логін або пароль' });
-  });
-
-  router.get('/signin', (req, res) => {
-    res.render('signin');
-  });
-
-  router.post('/signin', async (req, res) => {
-    const { username, email, password } = req.body;
-    const existingUser = await usersCollection.findOne({ email });
-
-    if (existingUser) {
-      return res.render('signin', { error: 'Емейл вже зареєстровано' });
-    }
-
-    const hashPassword = await bcrypt.hash(password, 10);
-    await usersCollection.insertOne({
-      username,
-      email,
-      password: hashPassword,
-      role: 'user',
-      createdAt: new Date().toISOString()
+    router.get('/login', (req, res) => {
+        res.render('login');
     });
 
-    req.session.user = username;
-    req.session.email = email;
-    res.redirect('/dashboard');
-  });
+    router.post('/login', async (req, res) => {
+        const {email, password} = req.body;
+        const user = await userSchema.findOne({email});
 
-  router.get('/logout', (req, res) => {
-    req.session.destroy(() => {
-      res.redirect('/login');
-    });
-  });
+        if (user && await bcrypt.compare(password, user.password)) {
+            req.session.user = user.username;
+            req.session.email = user.email;
+            return res.redirect('/dashboard');
+        }
 
-
-  router.get('/forgot-password', (req, res) => {
-    res.render('forgot-password');
-  });
-
-  router.post('/forgot-password', async (req, res) => {
-    const { email } = req.body;
-    const user = await usersCollection.findOne({ email });
-
-    if (!user) {
-      return res.render('forgot-password', { error: 'Користувача з таким email не знайдено' });
-    }
-
-
-    const token = crypto.randomBytes(32).toString('hex');
-    const expires = Date.now() + 1000 * 60 * 30; // 30 минут
-
-    await usersCollection.updateOne(
-      { email },
-      { $set: { resetToken: token, resetExpires: expires } }
-    );
-
-    const resetLink = `http://localhost:${config.port}/reset-password/${token}`;
-
-    console.log('Відновлення пароля:', resetLink);
-
-    res.render('forgot-password', { message: 'Посилання для відновлення надіслано' });
-  });
-
-  router.get('/reset-password/:token', async (req, res) => {
-    const { token } = req.params;
-    const user = await usersCollection.findOne({
-      resetToken: token,
-      resetExpires: { $gt: Date.now() },
+        res.render('login', {error: 'Невірний логін або пароль'});
     });
 
-    if (!user) {
-      return res.render('reset-password', { error: 'Недійсне або прострочене посилання' });
-    }
-
-    res.render('reset-password', { token });
-  });
-
-  router.post('/reset-password/:token', async (req, res) => {
-    const { token } = req.params;
-    const { password } = req.body;
-
-    const user = await usersCollection.findOne({
-      resetToken: token,
-      resetExpires: { $gt: Date.now() },
+    router.get('/signin', (req, res) => {
+        res.render('signin');
     });
 
-    if (!user) {
-      return res.render('reset-password', { error: 'Недійсне або прострочене посилання' });
-    }
+    router.post('/signin', async (req, res) => {
+        try {
+            const {username, email, password} = req.body;
+            console.error('signin', {username, email, password});
+            const existingUser = await userSchema.findOne({email: email});
+            console.error(existingUser);
+            if (existingUser) {
+                return res.render('signin', {error: 'Емейл вже зареєстровано'});
+            }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+            const hashPassword = await bcrypt.hash(password, 10);
+            await userSchema.insertOne({
+                username,
+                email,
+                password: hashPassword,
+                role: 'user',
+                createdAt: new Date().toISOString()
+            });
 
-    await usersCollection.updateOne(
-      { _id: user._id },
-      {
-        $set: { password: hashedPassword },
-        $unset: { resetToken: "", resetExpires: "" }
-      }
-    );
+            req.session.user = username;
+            req.session.email = email;
+            res.redirect('/dashboard');
+        }catch (error) {
+            console.error('Error during registration:', error);
+            res.render('signin', {error: 'An error occurred during registration'});
+        }
 
-    res.redirect('/login');
-  });
+    });
+
+    router.get('/logout', (req, res) => {
+        req.session.destroy(() => {
+            res.redirect('/login');
+        });
+    });
 
 
-  return router;
+    router.get('/forgot-password', (req, res) => {
+        res.render('forgot-password');
+    });
+
+    router.post('/forgot-password', async (req, res) => {
+        const {email} = req.body;
+        const user = await userSchema.findOne({email});
+
+        if (!user) {
+            return res.render('forgot-password', {error: 'Користувача з таким email не знайдено'});
+        }
+
+
+        const token = crypto.randomBytes(32).toString('hex');
+        const expires = Date.now() + 1000 * 60 * 30; // 30 минут
+
+        await userSchema.updateOne(
+            {email},
+            {$set: {resetToken: token, resetExpires: expires}}
+        );
+
+        const resetLink = `http://localhost:${config.port}/reset-password/${token}`;
+
+        console.log('Відновлення пароля:', resetLink);
+
+        res.render('forgot-password', {message: 'Посилання для відновлення надіслано'});
+    });
+
+    router.get('/reset-password/:token', async (req, res) => {
+        const {token} = req.params;
+        const user = await userSchema.findOne({
+            resetToken: token,
+            resetExpires: {$gt: Date.now()},
+        });
+
+        if (!user) {
+            return res.render('reset-password', {error: 'Недійсне або прострочене посилання'});
+        }
+
+        res.render('reset-password', {token});
+    });
+
+    router.post('/reset-password/:token', async (req, res) => {
+        const {token} = req.params;
+        const {password} = req.body;
+
+        const user = await userSchema.findOne({
+            resetToken: token,
+            resetExpires: {$gt: Date.now()},
+        });
+
+        if (!user) {
+            return res.render('reset-password', {error: 'Недійсне або прострочене посилання'});
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        await userSchema.updateOne(
+            {_id: user._id},
+            {
+                $set: {password: hashedPassword},
+                $unset: {resetToken: "", resetExpires: ""}
+            }
+        );
+
+        res.redirect('/login');
+    });
+
+
+    return router;
 }
