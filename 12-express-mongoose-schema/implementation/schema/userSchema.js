@@ -9,6 +9,10 @@ const userSchema = new mongoose.Schema({
         enum: ['user', 'admin'],
         default: 'user'
     },
+    resetToken: {type: String},
+    resetExpires: {
+        type: Date,
+    }
 }, {
     timestamps: true,
     optimisticConcurrency: true
