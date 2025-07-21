@@ -10,8 +10,7 @@ const articlesRouter = require('../routes/articles');
 const dashboardRouter = require('../routes/dashboard');
 const commentRouter = require('../routes/commentRouter');
 const errorRoutes = require('../routes/errorRoutes');
-const articleSchema = require('../models/articleSchema');
-const userSchema = require('../models/userSchema');
+const {articleSchema,userSchema} = require('../models/index');
 
 
 (async () => {
