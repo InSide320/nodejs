@@ -6,7 +6,7 @@ include header
     if error
         p(style="color:red")= error
 
-    form(method="POST" action="/signin")
+    form(method="POST" action="/auth/signin")
         div
             input(type="text" name="email" placeholder="Email користувача" required)
         div

@@ -1,7 +1,7 @@
 const express = require('express');
-const {parseTags} = require("../utils/tags");
+const articleSchema = require('../models/articleSchema');
 
-module.exports = ({articleSchema}) => {
+module.exports = () => {
     const router = express.Router();
 
     // read
@@ -17,7 +17,7 @@ module.exports = ({articleSchema}) => {
 
     // CREATE
     router.post('/new', async (req, res) => {
-        const {title, content, url, tags, published} = req.body;
+        const {title, content, url, published} = req.body;
         const article = {
             title,
             content,
@@ -25,7 +25,6 @@ module.exports = ({articleSchema}) => {
             published: published === 'on',
             createdAt: new Date()
         };
-        if (tags) article.tags = parseTags(tags);
         await articleSchema.insertOne(article);
         res.redirect('/articles');
     });

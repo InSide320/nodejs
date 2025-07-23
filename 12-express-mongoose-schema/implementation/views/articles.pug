@@ -12,8 +12,6 @@ include header
                 div
                     a(href=`/articles/${article.url}`)= article.title
                 div
-                    span= stringifyTags(article.tags)
-                div
                     a(href=`/articles/${article.url}/edit`) Edit
                 div
                     form(action=`/articles/${article.url}?_method=DELETE`, method="POST", style="display:inline")

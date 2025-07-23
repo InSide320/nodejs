@@ -8,11 +8,11 @@ nav
             a(href="/dashboard") Dashboard
         li
             if (user)
-                a(href="/logout") Logout
+                a(href="/auth/logout") Logout
             else
-                a(href="/login") Login
+                a(href="/auth/login") Login
         li
             if (!user)
-                a(href="/signin") Register
+                a(href="/auth/signin") Register
         if (user)
             li= email

@@ -7,9 +7,9 @@ include header
       p(style="color:red")= error
 
     p 
-      a(href="/forgot-password") Забули пароль?
+      a(href="/auth/forgot-password") Забули пароль?
 
-    form(method="POST" action="/login")
+    form(method="POST" action="/auth/login")
       div
         input(type="text" name="email" placeholder="Email" required)
       div

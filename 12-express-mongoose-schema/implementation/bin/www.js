@@ -5,12 +5,9 @@ const app = require('../app');
 const {connectDB} = require("../db/db");
 const indexRouter = require('../routes/index');
 const authRouter = require('../routes/auth');
-const userRouter = require('../routes/dashboard');
 const articlesRouter = require('../routes/articles');
 const dashboardRouter = require('../routes/dashboard');
-const commentRouter = require('../routes/commentRouter');
 const errorRoutes = require('../routes/errorRoutes');
-const {articleSchema,userSchema} = require('../models/index');
 
 
 (async () => {
@@ -23,12 +20,10 @@ const {articleSchema,userSchema} = require('../models/index');
             next();
         });
 
-        app.use("/", indexRouter({articleSchema}));
-        app.use("/articles", articlesRouter({articleSchema}));
-        app.use("/", commentRouter({articleSchema}));
-        app.use("/", authRouter({userSchema}));
-        app.use("/", userRouter({userSchema}));
-        app.use("/dashboard", dashboardRouter({userSchema}));
+        app.use("/", indexRouter());
+        app.use("/auth", authRouter());
+        app.use("/articles", articlesRouter());
+        app.use("/dashboard", dashboardRouter());
 
         app.use(errorRoutes);
 

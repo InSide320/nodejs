@@ -3,8 +3,9 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const config = require('config');
+const userSchema = require('../models/userSchema');
 
-module.exports = function ({userSchema}) {
+module.exports = function () {
 
     router.get('/login', (req, res) => {
         res.render('login');
@@ -30,11 +31,10 @@ module.exports = function ({userSchema}) {
     router.post('/signin', async (req, res) => {
         try {
             const {username, email, password} = req.body;
-            console.error('signin', {username, email, password});
             const existingUser = await userSchema.findOne({email: email});
             console.error(existingUser);
             if (existingUser) {
-                return res.render('signin', {error: 'Емейл вже зареєстровано'});
+                return res.render('/signin', {error: 'Емейл вже зареєстровано'});
             }
 
             const hashPassword = await bcrypt.hash(password, 10);
@@ -51,14 +51,14 @@ module.exports = function ({userSchema}) {
             res.redirect('/dashboard');
         }catch (error) {
             console.error('Error during registration:', error);
-            res.render('signin', {error: 'An error occurred during registration'});
+            res.render('/signin', {error: 'An error occurred during registration'});
         }
 
     });
 
     router.get('/logout', (req, res) => {
         req.session.destroy(() => {
-            res.redirect('/login');
+            res.redirect('/auth/login');
         });
     });
 
@@ -128,7 +128,7 @@ module.exports = function ({userSchema}) {
             }
         );
 
-        res.redirect('/login');
+        res.redirect('/auth/login');
     });
 
 

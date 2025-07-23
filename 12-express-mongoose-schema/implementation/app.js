@@ -2,7 +2,6 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
-const {stringifyTags} = require("./utils/tags");
 const createSessionMiddleware = require("./db/session");
 
 const app = express();
@@ -21,9 +20,8 @@ app.use(morgan('tiny', {
 app.use(methodOverride('_method'));
 
 app.use((req, res, next) => {
-    app.locals.user = req.session?.user || null;
-    app.locals.email = req.session?.email || null;
-    res.locals.stringifyTags = stringifyTags;
+    res.locals.user = req.session?.user || null;
+    res.locals.email = req.session?.email || null;
     next();
 });
 
