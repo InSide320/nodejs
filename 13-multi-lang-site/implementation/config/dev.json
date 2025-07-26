@@ -1,0 +1,6 @@
+{
+    "port" : 3050,
+    "mongoUrl":  "mongodb://localhost:27017/sprint_15",
+    "defaultLocale" : "ua",
+    "supportedLangs" : ["fr", "ua"]
+}

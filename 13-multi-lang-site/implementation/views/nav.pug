@@ -1,0 +1,13 @@
+nav
+    ul(style="display:flex; justify-content: space-between; list-style-type:none")
+        li
+            a(href=`/${lang}`)= __('main')
+        li
+            a(href=`/${lang}/page`)= __('page')
+
+        each item in langs
+            li
+                if (item === lang)
+                    span= item
+                else
+                    a(href=`/${item}${clearPath}`)= item
